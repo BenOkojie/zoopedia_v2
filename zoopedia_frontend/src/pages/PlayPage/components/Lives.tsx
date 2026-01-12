@@ -1,13 +1,10 @@
-import React from 'react';
-
-const Lives: React.FC = () => {
-  const lives = 3;
-
+export default function Lives({ value }: { value: number }) {
   return (
-    <div>
-      <p>Lives: {lives}</p>
+    <div className="row gap-8">
+      <span className="mutedSmall">Lives</span>
+      <span className="lives">
+        {value} <span aria-hidden>❤️</span>
+      </span>
     </div>
   );
-};
-
-export default Lives;
+}

@@ -1,15 +1,26 @@
-import React from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "../ui/Button";
 
-const Navbar: React.FC = () => {
+export default function Navbar() {
+  const loc = useLocation();
+  const nav = useNavigate();
+
+  // Keep it minimal: show Back on /login and /play
+  const showBack = loc.pathname !== "/";
+
   return (
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/play">Play</a></li>
-        <li><a href="/login">Login</a></li>
-      </ul>
-    </nav>
+    <div className="topbar">
+      <div className="topbarInner">
+        {showBack ? (
+          <Button variant="ghost" onClick={() => nav(-1)}>
+            ← Back
+          </Button>
+        ) : (
+          <div />
+        )}
+        <div className="topbarTitle"> </div>
+        <div />
+      </div>
+    </div>
   );
-};
-
-export default Navbar;
+}

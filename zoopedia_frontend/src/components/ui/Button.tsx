@@ -1,16 +1,25 @@
-import React from 'react';
+import React from "react";
 
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
-  return (
-    <button onClick={onClick}>
-      {children}
-    </button>
-  );
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "md" | "lg";
 };
 
-export default Button;
+export function Button({
+  variant = "primary",
+  size = "md",
+  className = "",
+  ...props
+}: Props) {
+  return (
+    <button
+      className={[
+        "btn",
+        `btn-${variant}`,
+        size === "lg" ? "btn-lg" : "",
+        className,
+      ].join(" ")}
+      {...props}
+    />
+  );
+}

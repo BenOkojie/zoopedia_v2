@@ -1,15 +1,16 @@
-import React from 'react';
+import React from "react";
 
-interface CardProps {
+export function Card({
+  title,
+  children,
+}: {
+  title?: string;
   children: React.ReactNode;
-}
-
-const Card: React.FC<CardProps> = ({ children }) => {
+}) {
   return (
-    <div className="card">
-      {children}
-    </div>
+    <section className="card">
+      {title ? <div className="cardTitle">{title}</div> : null}
+      <div>{children}</div>
+    </section>
   );
-};
-
-export default Card;
+}

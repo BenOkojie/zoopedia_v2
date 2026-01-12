@@ -1,12 +1,25 @@
-// API client setup
-const API_BASE_URL = 'http://localhost:3000/api';
+import { env } from "../lib/env";
+import { getGuestId } from "../hooks/useGuestId";
 
-export const apiClient = {
-  get: (endpoint: string) => fetch(`${API_BASE_URL}${endpoint}`).then(res => res.json()),
-  post: (endpoint: string, data: any) => fetch(`${API_BASE_URL}${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }).then(res => res.json()),
-  // Add more methods as needed
-};
+export async function apiFetch<T>(
+  path: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const guestId = getGuestId();
+
+  const res = await fetch(`${env.apiBaseUrl}${path}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      "X-Guest-Id": guestId,
+      ...(options.headers || {}),
+    },
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || `Request failed: ${res.status}`);
+  }
+
+  return res.json() as Promise<T>;
+}

@@ -1,25 +1,37 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+import { Button } from "../../../components/ui/Button";
 
-const GuessInput: React.FC = () => {
-  const [guess, setGuess] = useState('');
+export default function GuessInput({
+  onSubmit,
+  disabled,
+}: {
+  onSubmit: (guess: string) => void;
+  disabled?: boolean;
+}) {
+  const [value, setValue] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle guess submission
-    console.log('Guess:', guess);
-  };
+  function submit() {
+    const guess = value.trim();
+    if (!guess) return;
+    onSubmit(guess);
+    setValue("");
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="row gap-12">
       <input
-        type="text"
-        value={guess}
-        onChange={(e) => setGuess(e.target.value)}
-        placeholder="Enter your guess"
+        className="input"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Type your answer..."
+        disabled={disabled}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") submit();
+        }}
       />
-      <button type="submit">Guess</button>
-    </form>
+      <Button onClick={submit} disabled={disabled || !value.trim()}>
+        {disabled ? "..." : "Submit"}
+      </Button>
+    </div>
   );
-};
-
-export default GuessInput;
+}

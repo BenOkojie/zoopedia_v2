@@ -1,12 +1,15 @@
-import React from 'react';
-// Assuming React Query or similar
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export const QueryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // const queryClient = new QueryClient();
-  return (
-    // <QueryClientProvider client={queryClient}>
-      {children}
-    // </QueryClientProvider>
-  );
-};
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 10_000,
+    },
+  },
+});
+
+export function QueryProvider({ children }: { children: React.ReactNode }) {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+}

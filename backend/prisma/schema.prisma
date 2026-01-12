@@ -1,0 +1,36 @@
+// Prisma schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Puzzle {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  hints     String[]
+  date      DateTime @unique
+  createdAt DateTime @default(now())
+}
+
+model Game {
+  id        String   @id @default(cuid())
+  userId    String?
+  puzzleId  String
+  score     Int
+  attempts  Int
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

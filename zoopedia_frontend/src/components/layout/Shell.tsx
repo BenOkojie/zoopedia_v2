@@ -1,17 +1,24 @@
-import React from 'react';
-import Navbar from './Navbar';
+import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
 
-interface ShellProps {
-  children: React.ReactNode;
-}
-
-const Shell: React.FC<ShellProps> = ({ children }) => {
+export function Shell({ variant }: { variant: "centered" | "game" }) {
   return (
-    <div>
+    <div className="appBg">
       <Navbar />
-      <main>{children}</main>
+
+      {variant === "centered" ? (
+        <main className="shellCentered">
+          <div className="phoneFrame">
+            <Outlet />
+          </div>
+        </main>
+      ) : (
+        <main className="shellGame">
+          <div className="phoneFrame gameFrame">
+            <Outlet />
+          </div>
+        </main>
+      )}
     </div>
   );
-};
-
-export default Shell;
+}

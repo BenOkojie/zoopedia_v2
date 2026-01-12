@@ -1,17 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { getDailyLeaderboard, getOverallLeaderboard } from "../api/endpoints";
 
-interface LeaderboardEntry {
-  name: string;
-  score: number;
+export function useLeaderboard(type: "daily" | "overall") {
+  return useQuery({
+    queryKey: ["leaderboard", type],
+    queryFn: type === "daily" ? getDailyLeaderboard : getOverallLeaderboard,
+    staleTime: type === "daily" ? 30_000 : 120_000,
+  });
 }
-
-export const useLeaderboard = () => {
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-
-  useEffect(() => {
-    // Fetch leaderboard from API
-    // setLeaderboard(fetchedData);
-  }, []);
-
-  return leaderboard;
-};

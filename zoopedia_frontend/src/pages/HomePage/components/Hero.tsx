@@ -1,12 +1,15 @@
-import React from 'react';
 
-const Hero: React.FC = () => {
+export default function Hero() {
   return (
-    <section>
-      <h1>Discover the Animal Kingdom</h1>
-      <p>Play and learn about animals!</p>
-    </section>
+    <div className="center stack gap-12">
+      <img
+        src="Untitled_Artwork (7).png"
+        alt="Zoopedia logo"
+        className="heroLogo"
+      />
+      <p className="subtitle">
+        Guess the animal. Get a new hint each try.
+      </p>
+    </div>
   );
-};
-
-export default Hero;
+}

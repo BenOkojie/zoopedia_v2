@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+export function Modal({
+  open,
+  title,
+  children,
+}: {
+  open: boolean;
+  title?: string;
   children: React.ReactNode;
-}
-
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
+}) {
+  if (!open) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="modalOverlay" role="dialog" aria-modal="true">
+      <div className="modal">
+        {title ? <div className="modalTitle">{title}</div> : null}
         {children}
-        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );
-};
-
-export default Modal;
+}

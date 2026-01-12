@@ -1,29 +1,187 @@
-/* Global styles */
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #0a8f87;
+  --border: #e5e7eb;
+  --shadow: 0 6px 24px rgba(17, 24, 39, 0.08);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--text);
+  background: var(--bg);
 }
+
+.appBg { min-height: 100vh; }
+
+.topbar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+}
+.topbarInner {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shellCentered, .shellGame {
+  display: flex;
+  justify-content: center;
+  padding: 18px 14px 28px;
+}
+
+.phoneFrame {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  min-height: 72vh;
+}
+
+.gameFrame {
+  background: transparent;
+  box-shadow: none;
+  padding: 8px 0 0;
+  min-height: auto;
+  max-width: 420px;
+}
+.heroLogo {
+  width: 180px;
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.stack { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; }
+.center { text-align: center; }
+.centerBetween { justify-content: space-between; }
+.gap-6 { gap: 6px; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-24 { gap: 24px; }
+
+.title { font-size: 28px; margin: 0; }
+.subtitle { color: var(--muted); margin: 0; }
+.muted { color: var(--muted); }
+.mutedSmall { color: var(--muted); font-size: 13px; }
+.errorText { color: #b91c1c; font-size: 13px; margin-top: 8px; }
+
+.logoMark {
+  width: 76px; height: 76px;
+  border-radius: 20px;
+  background: rgba(10, 143, 135, 0.12);
+}
+
+.btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: #eef2f7; color: var(--text); }
+.btn-ghost { background: transparent; color: var(--muted); }
+.btn-lg { width: 100%; padding: 14px 16px; border-radius: 16px; font-size: 15px; }
 
 .card {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
+  padding: 16px;
+}
+.cardTitle {
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 12px;
+  outline: none;
+  font-size: 14px;
+}
+.field span { display:block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+
+.gameHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+.brandMini { font-weight: 800; letter-spacing: 0.2px; }
+.profilePill {
+  display:flex; align-items:center; gap:8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.8);
+}
+.profileDot {
+  width: 10px; height: 10px; border-radius: 999px;
+  background: var(--primary);
+}
+
+.lives { font-weight: 800; }
+
+.hintText { font-size: 16px; margin: 0; }
+.dots { display:flex; gap:6px; align-items:center; padding-top: 6px; }
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: #d1d5db;
+}
+.dot.active { background: var(--primary); }
+
+.guessRow { display:flex; flex-direction: column; padding: 10px 0; }
+.guessText { font-size: 22px; font-weight: 800; text-transform: lowercase; }
+
+.modalOverlay {
+  position: fixed; inset: 0;
+  background: rgba(17, 24, 39, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 18px;
 }
+.modal {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+.modalTitle { font-size: 20px; font-weight: 900; margin-bottom: 10px; }
 
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 4px;
+.skeletonLine {
+  height: 14px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #eef2f7, #f6f7f9, #eef2f7);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: -200% 0; }
 }

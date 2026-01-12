@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getTodayPuzzle, submitTodayGuess } from "../api/endpoints";
 
-interface Puzzle {
-  id: string;
-  question: string;
-  hints: string[];
+export function usePuzzle() {
+  return useQuery({
+    queryKey: ["puzzle", "today"],
+    queryFn: getTodayPuzzle,
+  });
 }
 
-export const usePuzzle = () => {
-  const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
+export function useSubmitGuess() {
+  const qc = useQueryClient();
 
-  useEffect(() => {
-    // Fetch puzzle from API
-    // setPuzzle(fetchedPuzzle);
-  }, []);
-
-  return puzzle;
-};
+  return useMutation({
+    mutationFn: async ({ guess }: { guess: string }) => submitTodayGuess(guess),
+    onSuccess: (data) => {
+      // Update the cache so UI updates instantly
+      qc.setQueryData(["puzzle", "today"], data);
+    },
+  });
+}
