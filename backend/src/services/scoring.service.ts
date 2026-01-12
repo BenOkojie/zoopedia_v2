@@ -1,6 +1,11 @@
-export const calculateScore = (attempts: number, time: number) => {
-  const baseScore = 100;
-  const attemptPenalty = attempts * 10;
-  const timeBonus = Math.max(0, 60 - time); // Bonus for quick answers
-  return Math.max(0, baseScore - attemptPenalty + timeBonus);
-};
+// For now we’re NOT doing leaderboard scores.
+// This can be extended later when you add time/guess scoring.
+
+export function isCorrectGuess(
+  guessNormalized: string,
+  answerNormalized: string,
+  aliasesNormalized: string[]
+) {
+  if (guessNormalized === answerNormalized) return true;
+  return aliasesNormalized.includes(guessNormalized);
+}

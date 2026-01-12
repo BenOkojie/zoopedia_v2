@@ -1,4 +1,3 @@
-// Prisma schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,29 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+model DailyPuzzle {
+  date              String   @id // "YYYY-MM-DD"
+  answer            String
+  answerNormalized  String
+  aliasesNormalized Json     @default("[]") // array of strings
+  hints             Json     // array of strings
+  maxLives          Int      @default(6)
+  createdAt         DateTime @default(now())
+}
+
+model Attempt {
+  id         String   @id @default(cuid())
+  puzzleDate String
+  guestId    String?
+  userId     String?  // Supabase user UUID
+  guesses    Json     @default("[]") // array of raw guesses
+  livesLeft  Int
+  status     AttemptStatus @default(IN_PROGRESS)
+
+  startedAt  DateTime? // set on first guess (fair if they open then leave)
+  completedAt DateTime?
+  durationSec Int?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  puzzle     DailyPuzzle @relation(fields: [puzzleDate], references: [date], onDelete: Cascade)
+
+  @@index([puzzleDate])
+  @@index([guestId])
+  @@index([userId])
+}
+
+model UserProfile {
+  id        String   @id // Supabase user id
+  username  String?  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Puzzle {
-  id        String   @id @default(cuid())
-  question  String
-  answer    String
-  hints     String[]
-  date      DateTime @unique
-  createdAt DateTime @default(now())
-}
-
-model Game {
-  id        String   @id @default(cuid())
-  userId    String?
-  puzzleId  String
-  score     Int
-  attempts  Int
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
+enum AttemptStatus {
+  IN_PROGRESS
+  WON
+  LOST
 }
